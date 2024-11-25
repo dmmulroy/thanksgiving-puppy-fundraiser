@@ -38,8 +38,8 @@ export function useVoting() {
 
 		fetchData();
 
-		const interval = setInterval(() => fetchData(), 1000 * 60);
-		return () => clearInterval(interval);
+		//const interval = setInterval(() => fetchData(), 1000 * 60);
+		//return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {

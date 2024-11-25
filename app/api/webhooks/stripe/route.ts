@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import Stripe from "stripe";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 	apiVersion: "2024-11-20.acacia",
@@ -13,9 +16,6 @@ export async function POST(req: Request) {
 		const body = await req.text();
 		const headersList = headers();
 		const signature = headersList.get("stripe-signature");
-		const xsignature = headersList.get("x-stripe-signature");
-		console.log({ signature, xsignature });
-		//const signature = headers().get("stripe-signature") as string;
 
 		let event: Stripe.Event;
 
@@ -26,20 +26,32 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
 		}
 
-		// Handle the checkout.session.completed event
 		if (event.type === "checkout.session.completed") {
 			const session = event.data.object as Stripe.Checkout.Session;
 
-			// Check if this is a payment link by verifying the payment_link property
 			if (session.payment_link) {
-				console.log(
-					"Payment link was successfully paid:",
-					session.payment_link,
-				);
+				const initalTotalVotes = await redis.zrevrank("votes", "votes");
 
-				console.log("puppy name", session.metadata!.name!);
-				console.log("Amount paid:", session.amount_total);
-				console.log("Currency:", session.currency);
+				const puppyName = session.metadata?.name ?? "<unknown>";
+				const votes = (session.amount_total ?? 0) / 100;
+
+				if (puppyName === "<unknown>") {
+					console.error("Puppy name was not included with the stripe metadata");
+				}
+
+				const initalPuppyVotes = await redis.zrevrank("votes", puppyName);
+				const updatePuppyVotes = await redis.zincrby("votes", votes, puppyName);
+
+				const updatedTotalVotes = await redis.zincrby("votes", votes, "total");
+
+				console.log({
+					puppyName,
+					votes,
+					initalTotalVotes,
+					updatedTotalVotes,
+					initalPuppyVotes,
+					updatePuppyVotes,
+				});
 			}
 		}
 

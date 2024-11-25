@@ -27,13 +27,10 @@ export async function GET(_req: Request) {
 
 		const puppyVotes = await Promise.all(
 			puppyNames.map(async (name) => {
-				const votes =
-					(await redis.zscore(
-						"votes",
-						name.toLowerCase().replaceAll(" ", "."),
-					)) ?? 0;
+				const key = name.toLowerCase().replaceAll(" ", ".");
+				const votes = (await redis.zscore("votes", key)) ?? 0;
 
-				return [name, votes] as const;
+				return [key, votes] as const;
 			}),
 		);
 

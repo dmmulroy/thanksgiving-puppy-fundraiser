@@ -15,6 +15,8 @@ export async function GET(_req: Request) {
 			.then(zrangeToObject)
 			.catch(console.error);
 
+		delete votesByName.total;
+
 		console.log({ votesByName });
 
 		return NextResponse.json({ votesByName });

@@ -10,8 +10,8 @@ const puppyNames = puppyData.map(([name]) => name);
 
 export async function GET(_req: Request) {
 	try {
-		const total = await redis.zscore("votes", "total");
-
+		const zrange = await redis.zrange("votes", 0, -1, { withScores: true });
+		console.log({ zrange });
 		const puppyVotes = await Promise.all(
 			puppyNames.map(async (name) => {
 				const key = nameToKey(name);
@@ -23,9 +23,9 @@ export async function GET(_req: Request) {
 
 		const votesByName = Object.fromEntries(puppyVotes);
 
-		console.log({ total, votesByName });
+		console.log({ votesByName });
 
-		return NextResponse.json({ total, votesByName });
+		return NextResponse.json({ votesByName });
 	} catch (err) {
 		console.error("Error fetching vote data:", err);
 		return NextResponse.json(

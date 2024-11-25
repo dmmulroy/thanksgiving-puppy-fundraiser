@@ -23,7 +23,6 @@ export function useVoting() {
 					(res) =>
 						res.json() as Promise<
 							Readonly<{
-								total: number;
 								votesByName: Record<string, number>;
 							}>
 						>,

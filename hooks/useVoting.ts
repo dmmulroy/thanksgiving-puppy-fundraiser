@@ -1,3 +1,4 @@
+import { nameToKey } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 interface VoteCount {
@@ -44,8 +45,7 @@ export function useVoting() {
 		localStorage.setItem("puppyVotes", JSON.stringify(votes));
 	}, [votes]);
 
-	const getVotesForName = (name: string) =>
-		votes[name.toLowerCase().replaceAll(" ", ".")] || 0;
+	const getVotesForName = (name: string) => votes[nameToKey(name)] || 0;
 
 	const getTotalVotes = () =>
 		Object.values(votes).reduce((sum, count) => sum + count, 0);

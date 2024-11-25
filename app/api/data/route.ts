@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
+import { nameToKey } from "@/lib/utils";
 
 const redis = Redis.fromEnv();
 
@@ -27,7 +28,7 @@ export async function GET(_req: Request) {
 
 		const puppyVotes = await Promise.all(
 			puppyNames.map(async (name) => {
-				const key = name.toLowerCase().replaceAll(" ", ".");
+				const key = nameToKey(name);
 				const votes = (await redis.zscore("votes", key)) ?? 0;
 
 				return [key, votes] as const;

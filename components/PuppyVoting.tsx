@@ -58,22 +58,26 @@ export function PuppyVoting() {
 							Vote for Puppy Names
 						</h2>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-							{puppyData.map(([name, link]) => (
-								<div key={name} className="bg-white p-6 rounded-lg shadow-lg">
-									<h3 className="text-2xl font-semibold text-amber-800 mb-2">
-										{name}
-									</h3>
-									<p className="text-amber-700 mb-4">
-										Votes: {getVotesForName(name)}
-									</p>
-									<Button
-										className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-										onClick={() => handleVote(link)}
-									>
-										Vote
-									</Button>
-								</div>
-							))}
+							{puppyData
+								.toSorted(
+									(a, b) => getVotesForName(b[0]) - getVotesForName(a[0]),
+								)
+								.map(([name, link]) => (
+									<div key={name} className="bg-white p-6 rounded-lg shadow-lg">
+										<h3 className="text-2xl font-semibold text-amber-800 mb-2">
+											{name}
+										</h3>
+										<p className="text-amber-700 mb-4">
+											Votes: {getVotesForName(name)}
+										</p>
+										<Button
+											className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+											onClick={() => handleVote(link)}
+										>
+											Vote
+										</Button>
+									</div>
+								))}
 						</div>
 					</section>
 				</div>

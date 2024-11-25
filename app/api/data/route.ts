@@ -1,3 +1,5 @@
+export const fetchCache = "force-no-store";
+
 import { NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { nameToKey, puppyData } from "@/lib/utils";

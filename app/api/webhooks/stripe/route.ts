@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 			const session = event.data.object as Stripe.Checkout.Session;
 
 			if (session.payment_link) {
-				const initalTotalVotes = await redis.zrevrank("votes", "votes");
+				const initalTotalVotes = await redis.zscore("votes", "votes");
 
 				const puppyName = session.metadata?.name ?? "<unknown>";
 				const votes = (session.amount_total ?? 0) / 100;
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 					console.error("Puppy name was not included with the stripe metadata");
 				}
 
-				const initalPuppyVotes = await redis.zrevrank("votes", puppyName);
+				const initalPuppyVotes = await redis.zscore("votes", puppyName);
 				const updatePuppyVotes = await redis.zincrby("votes", votes, puppyName);
 
 				const updatedTotalVotes = await redis.zincrby("votes", votes, "total");

@@ -1,45 +1,58 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 interface VoteCount {
-  [key: string]: number
+	[key: string]: number;
 }
 
-export function useVoting(initialNames: string[]) {
-  const [votes, setVotes] = useState<VoteCount>(() => {
-    if (typeof window !== 'undefined') {
-      const savedVotes = localStorage.getItem('puppyVotes')
-      return savedVotes ? JSON.parse(savedVotes) : {}
-    }
-    return {}
-  })
+export function useVoting() {
+	const [loading, setLoading] = useState<boolean>(false);
+	const [votes, setVotes] = useState<VoteCount>(() => {
+		if (typeof window !== "undefined") {
+			const savedVotes = localStorage.getItem("puppyVotes");
+			return savedVotes ? JSON.parse(savedVotes) : {};
+		}
+		return {};
+	});
 
-  useEffect(() => {
-    localStorage.setItem('puppyVotes', JSON.stringify(votes))
-  }, [votes])
+	useEffect(() => {
+		async function fetchData() {
+			setLoading(true);
+			fetch("/data")
+				.then(
+					(res) =>
+						res.json() as Promise<
+							Readonly<{
+								total: number;
+								votesByName: Record<string, number>;
+							}>
+						>,
+				)
+				.then(({ votesByName }) => {
+					setLoading(false);
+					setVotes(votesByName);
+				})
+				.finally(() => setLoading(false));
+		}
 
-  const voteForName = (name: string) => {
-    setVotes(prevVotes => ({
-      ...prevVotes,
-      [name]: (prevVotes[name] || 0) + 1
-    }))
-  }
+		fetchData();
 
-  const getVotesForName = (name: string) => votes[name] || 0
+		const interval = setInterval(() => fetchData(), 5000);
+		return () => clearInterval(interval);
+	}, []);
 
-  const getTotalVotes = () => Object.values(votes).reduce((sum, count) => sum + count, 0)
+	useEffect(() => {
+		localStorage.setItem("puppyVotes", JSON.stringify(votes));
+	}, [votes]);
 
-  const getTopNames = (count: number) => {
-    return Object.entries(votes)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, count)
-      .map(([name]) => name)
-  }
+	const getVotesForName = (name: string) =>
+		votes[name.toLowerCase().replaceAll(" ", ".")] || 0;
 
-  return {
-    voteForName,
-    getVotesForName,
-    getTotalVotes,
-    getTopNames,
-  }
+	const getTotalVotes = () =>
+		Object.values(votes).reduce((sum, count) => sum + count, 0);
+
+	return {
+		loading,
+		getVotesForName,
+		getTotalVotes,
+	};
 }
-

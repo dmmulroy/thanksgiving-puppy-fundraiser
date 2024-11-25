@@ -4,6 +4,8 @@ import { nameToKey, puppyData } from "@/lib/utils";
 
 const redis = Redis.fromEnv();
 
+export const fetchCache = "only-no-store";
+
 const puppyNames = puppyData.map(([name]) => name);
 
 export async function GET(_req: Request) {

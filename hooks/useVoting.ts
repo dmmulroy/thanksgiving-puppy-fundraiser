@@ -18,7 +18,7 @@ export function useVoting() {
 	useEffect(() => {
 		async function fetchData() {
 			setLoading(true);
-			fetch("/api/data")
+			fetch("/api/data", { cache: "no-cache" })
 				.then(
 					(res) =>
 						res.json() as Promise<

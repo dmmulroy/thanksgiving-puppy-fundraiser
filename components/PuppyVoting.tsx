@@ -5,25 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useVoting } from "../hooks/useVoting";
 import { v4 as uuidv4 } from "uuid";
+import { puppyData } from "@/lib/utils";
 
 export function PuppyVoting() {
-	const puppyNames = [
-		"Green Bean",
-		"Yam",
-		"Mashed Potato",
-		"Mac and Cheese",
-		"Cranberry Sauce",
-		"Stuffing",
-		"Gobbler",
-		"Cornbread",
-		"Cider",
-		"Acorn",
-		"Wishbone",
-		"Gravy",
-		"Pumpkin Pie",
-		"Clove",
-		"Sweet Potato",
-	];
 	const { getVotesForName, getTotalVotes } = useVoting();
 	const [showThankYou, setShowThankYou] = useState(false);
 
@@ -36,11 +20,11 @@ export function PuppyVoting() {
 		}
 	}, []);
 
-	const handleVote = () => {
+	const handleVote = (link: string) => {
 		const paymentId = uuidv4();
 		localStorage.setItem("paymentId", paymentId);
 		window.open(
-			`https://buy.stripe.com/test_fZe5m18M6awA6nmaEI?client_reference_id=${paymentId}`,
+			`${link}?client_reference_id=${paymentId}`,
 			"_blank",
 			"noopener,noreferrer",
 		);
@@ -74,7 +58,7 @@ export function PuppyVoting() {
 							Vote for Puppy Names
 						</h2>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-							{puppyNames.map((name) => (
+							{puppyData.map(([name, link]) => (
 								<div key={name} className="bg-white p-6 rounded-lg shadow-lg">
 									<h3 className="text-2xl font-semibold text-amber-800 mb-2">
 										{name}
@@ -84,7 +68,7 @@ export function PuppyVoting() {
 									</p>
 									<Button
 										className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-										onClick={() => handleVote()}
+										onClick={() => handleVote(link)}
 									>
 										Vote
 									</Button>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import Stripe from "stripe";
 import { Redis } from "@upstash/redis";
+import { nameToKey } from "@/lib/utils";
 
 const redis = Redis.fromEnv();
 
@@ -31,10 +32,9 @@ export async function POST(req: Request) {
 
 			if (session.payment_link) {
 				const initalTotalVotes = await redis.zscore("votes", "total");
+				console.log(JSON.stringify(session));
 
-				const puppyName = (session.metadata?.name ?? "<unknown>")
-					.toLowerCase()
-					.replaceAll(" ", ".");
+				const puppyName = nameToKey(session.metadata?.name ?? "<unknown>");
 				const votes = (session.amount_total ?? 0) / 100;
 
 				if (puppyName === "<unknown>") {

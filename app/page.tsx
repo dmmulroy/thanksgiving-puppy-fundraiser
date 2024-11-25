@@ -39,14 +39,20 @@ export default function Home() {
 						Meet Zeva – The Brave Mama-to-Be
 					</h2>
 					<div className="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-6">
-						<Image
-							src="https://i.imgur.com/Unil5uu.jpeg"
-							alt="Zeva, a beautiful black dog with amber eyes, wearing a green collar"
-							width={300}
-							height={400}
-							className="rounded-lg object-cover w-full md:w-auto max-w-[300px] max-h-[400px]"
-							priority
-						/>
+						<a
+							href="https://nrgrr.org"
+							target="_blank"
+							referrerPolicy="no-referrer"
+						>
+							<Image
+								src="https://i.imgur.com/Unil5uu.jpeg"
+								alt="Zeva, a beautiful black dog with amber eyes, wearing a green collar"
+								width={300}
+								height={400}
+								className="rounded-lg object-cover w-full md:w-auto max-w-[300px] max-h-[400px]"
+								priority
+							/>
+						</a>
 						<div>
 							<p className="text-amber-700 mb-4">
 								Zeva’s story is one of unexpected hope and resilience. She was
@@ -93,6 +99,7 @@ export default function Home() {
 						</div>
 						<div>
 							<h4 className="text-lg font-semibold mb-2">Contact Us</h4>
+							<p>Email: info@nrgrr.org</p>
 							<p>Phone: (919) 676-7144</p>
 						</div>
 					</div>

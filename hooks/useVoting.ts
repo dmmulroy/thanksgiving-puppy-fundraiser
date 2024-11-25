@@ -32,6 +32,7 @@ export function useVoting() {
 					setLoading(false);
 					setVotes(votesByName);
 				})
+				.catch(console.error)
 				.finally(() => setLoading(false));
 		}
 

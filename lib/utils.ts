@@ -44,3 +44,21 @@ export const puppyData = [
 	["Green Bean", "https://donate.stripe.com/dR6dR3dpld41bxS9AB"],
 	["Gravy", "https://donate.stripe.com/cN28wJbhdggdcBW5kk"],
 ];
+
+export function zrangeToObject(zrangeOutput: unknown[]) {
+	// Ensure the array has even length
+	if (zrangeOutput.length % 2 !== 0) {
+		throw new Error("The input array must have an even number of elements.");
+	}
+
+	// Pair keys and values, then convert to an object
+	const result = Object.fromEntries(
+		Array.from({ length: zrangeOutput.length / 2 }, (_, i) => {
+			const key = zrangeOutput[i * 2];
+			const value = zrangeOutput[i * 2 + 1];
+			return [key, value];
+		}),
+	);
+
+	return result;
+}

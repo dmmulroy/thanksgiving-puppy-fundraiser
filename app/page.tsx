@@ -12,14 +12,20 @@ export default function Home() {
 			<header className="bg-white py-6">
 				<div className="container mx-auto">
 					<div className="flex items-center justify-center">
-						<Image
-							src="https://images.squarespace-cdn.com/content/v1/6247a9b2250ff313db5bc439/77499f27-2240-4482-9d44-7281a408166d/NRGRR_logo.jpg?format=1500w"
-							alt="Neuse River Golden Retriever Rescue Logo"
-							width={300}
-							height={150}
-							className="h-auto w-auto max-h-32"
-							priority
-						/>
+						<a
+							href="https://nrgrr.org"
+							target="_blank"
+							referrerPolicy="no-referrer"
+						>
+							<Image
+								src="https://images.squarespace-cdn.com/content/v1/6247a9b2250ff313db5bc439/77499f27-2240-4482-9d44-7281a408166d/NRGRR_logo.jpg?format=1500w"
+								alt="Neuse River Golden Retriever Rescue Logo"
+								width={300}
+								height={150}
+								className="h-auto w-auto max-h-32"
+								priority
+							/>
+						</a>
 					</div>
 				</div>
 			</header>
@@ -39,20 +45,14 @@ export default function Home() {
 						Meet Zeva – The Brave Mama-to-Be
 					</h2>
 					<div className="bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-6">
-						<a
-							href="https://nrgrr.org"
-							target="_blank"
-							referrerPolicy="no-referrer"
-						>
-							<Image
-								src="https://i.imgur.com/Unil5uu.jpeg"
-								alt="Zeva, a beautiful black dog with amber eyes, wearing a green collar"
-								width={300}
-								height={400}
-								className="rounded-lg object-cover w-full md:w-auto max-w-[300px] max-h-[400px]"
-								priority
-							/>
-						</a>
+						<Image
+							src="https://i.imgur.com/Unil5uu.jpeg"
+							alt="Zeva, a beautiful black dog with amber eyes, wearing a green collar"
+							width={300}
+							height={400}
+							className="rounded-lg object-cover w-full md:w-auto max-w-[300px] max-h-[400px]"
+							priority
+						/>
 						<div>
 							<p className="text-amber-700 mb-4">
 								Zeva’s story is one of unexpected hope and resilience. She was
@@ -85,8 +85,8 @@ export default function Home() {
 
 			<footer className="bg-amber-800 text-amber-50 py-8 mt-12">
 				<div className="container mx-auto px-4">
-					<div className="flex flex-col md:flex-row justify-between items-center">
-						<div className="mb-4 md:mb-0">
+					<div className="flex flex-row gap-8 justify-around">
+						<div className="mb-4 md:mb-0 w-2/3">
 							<h3 className="text-xl font-semibold mb-2">
 								Neuse River Golden Retriever Rescue
 							</h3>
@@ -97,8 +97,19 @@ export default function Home() {
 								ownership, community education and protection of all dogs.
 							</p>
 						</div>
-						<div>
+						<div className="">
 							<h4 className="text-lg font-semibold mb-2">Contact Us</h4>
+							<p>
+								Website:{" "}
+								<a
+									className="hover:underline"
+									href="https://nrgrr.org"
+									target="_blank"
+									referrerPolicy="no-referrer"
+								>
+									nrgrr.org
+								</a>
+							</p>
 							<p>Email: info@nrgrr.org</p>
 							<p>Phone: (919) 676-7144</p>
 						</div>

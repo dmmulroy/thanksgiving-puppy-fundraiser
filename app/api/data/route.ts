@@ -1,26 +1,10 @@
 import { NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
-import { nameToKey } from "@/lib/utils";
+import { nameToKey, puppyData } from "@/lib/utils";
 
 const redis = Redis.fromEnv();
 
-const puppyNames = [
-	"Green Bean",
-	"Yam",
-	"Mashed Potato",
-	"Mac and Cheese",
-	"Cranberry Sauce",
-	"Stuffing",
-	"Gobbler",
-	"Cornbread",
-	"Cider",
-	"Acorn",
-	"Wishbone",
-	"Gravy",
-	"Pumpkin Pie",
-	"Clove",
-	"Sweet Potato",
-];
+const puppyNames = puppyData.map(([name]) => name);
 
 export async function GET(_req: Request) {
 	try {
@@ -37,11 +21,13 @@ export async function GET(_req: Request) {
 
 		const votesByName = Object.fromEntries(puppyVotes);
 
+		console.log({ total, votesByName });
+
 		return NextResponse.json({ total, votesByName });
 	} catch (err) {
-		console.error("Error processing webhook:", err);
+		console.error("Error fetching vote data:", err);
 		return NextResponse.json(
-			{ error: "Webhook handler failed" },
+			{ error: "Error fetching vote data" },
 			{ status: 500 },
 		);
 	}

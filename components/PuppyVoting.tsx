@@ -42,7 +42,7 @@ export function PuppyVoting() {
 						</h2>
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<Progress
-								value={Math.min((Math.min(totalVotes, 1000) / 1000) * 100, 100)}
+								value={Math.min((Math.min(totalVotes, 2000) / 2000) * 100, 100)}
 								className="mb-4"
 							/>
 							<p className="text-center text-amber-700 mb-4">

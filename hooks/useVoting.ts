@@ -18,7 +18,7 @@ export function useVoting() {
 	useEffect(() => {
 		async function fetchData() {
 			setLoading(true);
-			fetch("/api/data", { cache: "no-store" })
+			fetch("/api/data")
 				.then(
 					(res) =>
 						res.json() as Promise<
@@ -36,9 +36,6 @@ export function useVoting() {
 		}
 
 		fetchData();
-
-		const interval = setInterval(() => fetchData(), 1000 * 60);
-		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {

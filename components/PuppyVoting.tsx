@@ -41,12 +41,8 @@ export function PuppyVoting() {
 							Fundraising Progress
 						</h2>
 						<div className="bg-white p-6 rounded-lg shadow-lg">
-							<Progress
-								value={Math.min((Math.min(totalVotes, 2000) / 2000) * 100, 100)}
-								className="mb-4"
-							/>
 							<p className="text-center text-amber-700 mb-4">
-								${totalVotes} raised of $2,500 goal
+								${totalVotes} raised 🎉
 							</p>
 						</div>
 					</section>
@@ -70,12 +66,6 @@ export function PuppyVoting() {
 										<p className="text-amber-700 mb-4">
 											Votes: {getVotesForName(name)}
 										</p>
-										<Button
-											className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-											onClick={() => handleVote(link)}
-										>
-											Vote
-										</Button>
 									</div>
 								))}
 						</div>
